@@ -80,12 +80,14 @@
                 }
                 
                 $.each(data, function(i, e) {
+                    if(e.path.toLowerCase() != "index.html") {
                         var template = $($("#recipeItemTemplate").html());
                         template.find("a").attr("href", e.path).text(formatName(e.name));
                         template.find("i").addClass(getIcon(e.name));
 
                         $(".recipes").append(template);
-                    });
+                    }
+                });   
             }
             
             var store = supports_html5_storage();
