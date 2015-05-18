@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 
 <html lang="en">
 <head>
@@ -7,112 +7,32 @@
   <title>Glombek Recipes</title>
   <meta name="description" content="Recipes">
   <meta name="author" content="Glombek">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <style>
-    body {
-        font-family: "Open Sans", sans-serif;
-    }
-    </style>
-  <!--<link rel="stylesheet" href="css/styles.css?v=1.0">-->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="resources/site.css?v=1.0">
 </head>
 
 <body>
-    
-    <ul class="recipes  fa-ul">
-    </ul>
-    
+    <header>
+
+    </header>
+    <main>
+        <section>
+            <ul class="recipes  fa-ul"></ul>
+        </section>
+    </main>
+
+
     <script id="recipeItemTemplate" type="text/template">
-        <li>
-            <i class="fa-li fa"></i>
-            <a href=""></a>
+        <li class="recipes__item">
+            <i class="recipes__item__icon  fa-li fa"></i>
+            <a class="recipes__item__link" href=""></a>
         </li>
     </script>
     
     
-    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
-    <script>
-        $(function() {
-            function supports_html5_storage() {
-              try {
-                return 'localStorage' in window && window['localStorage'] !== null;
-              } catch (e) {
-                return false;
-              }
-            }
-            
-            function format(data) {
-                function getIcon(fileName) {
-                    var ext = fileName.match(/\.[^/.]+$/).toString().toLowerCase();
-                    switch (ext) {
-                            case ".txt":
-                                return "fa-file-text-o";
-                            case ".odt":
-                            case ".doc":
-                            case ".docx": 
-                                return "fa-file-word-o";
-                            case ".jpg":
-                            case ".jpeg":
-                            case ".png":
-                            case ".gif":
-                                return "fa-file-image-o";
-                            case ".htm":
-                            case ".html":
-                                return "fa-file-code-o";
-                            default:
-                                return "fa-file-o";
-                    }
-                }
-                
-                function formatName(name) {
-                    
-                    name =
-                        //Remove file extension
-                        name.replace(/\.[^/.]+$/, "")
-                        
-                        //Convert Pascal/camel case
-                        // add space before capital letters
-                        .replace(/([A-Z])/g, ' $1')
-                        // uppercase the first character
-                        .replace(/^./, function(str){ return str.toUpperCase(); });
-                    return name;
-                }
-                
-                $.each(data, function(i, e) {
-                    if(e.path.toLowerCase() != "index.html") {
-                        var template = $($("#recipeItemTemplate").html());
-                        template.find("a").attr("href", e.path).text(formatName(e.name));
-                        template.find("i").addClass(getIcon(e.name));
-
-                        $(".recipes").append(template);
-                    }
-                });   
-            }
-            
-            var store = supports_html5_storage();
-            var data;
-            var valid = false;
-            if(store && localStorage["recipes"]) {
-                data = JSON.parse(localStorage["recipes"]);
-                data.aquired = moment(data.aquired, "YYYYMMDDHHmm");
-                valid = moment().diff(data.aquired.add(1, "hours")) < 0;
-            }
-            if(valid) {
-                format(data.data);
-            } else {
-                $.ajax({
-                    url: "https://api.github.com/repos/glombs/recipes/contents",
-                    success: function(data) {
-                        format(data);
-                        if(store) {
-                            localStorage["recipes"] = JSON.stringify({ aquired: moment().format("YYYYMMDDHHmm"), data: data });
-                        }
-                    }
-                });
-            }
-          });
-    </script>
-  <!--<script src="js/scripts.js"></script>-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+    <script src="resources/site.js"></script>
 </body>
 </html>
