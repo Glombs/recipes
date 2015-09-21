@@ -8,7 +8,8 @@ $(function () {
     }
 
     function format(data) {
-        function getIcon(ext) {
+        function getIcon(name) {
+            var ext = name.match(/\.[^/.]+$/).toString().toLowerCase();
             switch (ext) {
                 case ".txt":
                     return "fa-file-text-o";
@@ -47,8 +48,8 @@ $(function () {
             if (e.path.toLowerCase() != "index.html" && e.path.toLowerCase() != "resources") {
                 var template = $($("#recipeItemTemplate").html());
 
-                var ext = e.name.match(/\.[^/.]+$/).toString().toLowerCase();
-                template.find(".recipes__item__link").attr("href", e.path).text(formatName(e.name)).data("ext", ext);
+                
+                template.find(".recipes__item__link").attr("href", e.path).text(formatName(e.name));
                 template.find(".recipes__item__icon").addClass(getIcon(e.name));
 
                 $(".recipes").append(template);
